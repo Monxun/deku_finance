@@ -1,0 +1,5 @@
+iexfinance
+psycopg2
+requests
+asyncpg
+asyncio
