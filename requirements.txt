@@ -1,5 +1,3 @@
-iexfinance
+pyEX
 psycopg2
 requests
-asyncpg
-asyncio

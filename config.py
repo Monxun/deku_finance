@@ -1,6 +1,7 @@
 api_key = ''
+IEX_TOKEN = ''
 
 DB_HOST = 'host.docker.internal'
-DB_NAME = ''
-DB_USER = ''
-DB_PASSWORD = ''
+DB_NAME = 'etfdb'
+DB_USER = 'tradekit'
+DB_PASSWORD = 'yourpassword'

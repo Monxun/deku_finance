@@ -1,5 +1,6 @@
-from iexfinance.stocks import Stock # UPDATE TO IMPORT WHOLE LIBRARY
+import pyEX as p
 from psycopg2 import connect
+import psycopg2.extras
 import pandas
 import datetime
 import config
@@ -8,13 +9,15 @@ import config
 #
 # PASS THE SYMBOL, TABLE, and SQL QUERY TO THE DB_UPDATE METHOD
 #
-#*WORKS* NEEDS TESTING
-def DB_UPDATE(table='stock'):
+#
 
-    table_name = table
+
+#*WORKS* NEEDS TESTING
+def DB_POPULATE(symbol):
+
 
     # declare connection instance
-    conn = connect(
+    connection = connect(
         dbname = config.DB_NAME,
         user = config.DB_USER,
         host = 'host.docker.internal',
@@ -22,23 +25,17 @@ def DB_UPDATE(table='stock'):
     )
 
     # declare a cursor object from the connection
-    cursor = conn.cursor()
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    # execute an SQL statement using the psycopg2 cursor object
-    cursor.execute(f"SELECT * FROM {table_name};")
-
-    # enumerate() over the PostgreSQL records
-    for i, record in enumerate(cursor):
-        print ("\n", type(record))
-        print ( record )
+   
 
     # close the cursor object to avoid memory leaks
     cursor.close()
 
     # close the connection as well
-    conn.close()
+    connection.close()
 
-# DB_UPDATE()
+# DB_POPULATE()
 
 
 #_____________________________'API'______________________________
@@ -47,16 +44,8 @@ def DB_UPDATE(table='stock'):
 # *WORKS* NEEDS TESTINGn | SYMBOLS WILL HAVE ATTRIBUTE DATA INCLUDING ITS TYPE 
 # (CRYPT, STOCK, FOREX, ETC... UNDER 'INST_TYPE')
 
-def get_symbol_data(symbol, type, info):
 
-    start = datetime.date(2020, 7, 1) # create attribute to pass range of data
-
-    if type == 'stock':
-        stock = Stock(symbol, token=config.api_key)
-    if info =='get_company':
-        a = stock.get_company()
-
-    print(a)
+   
 
 #_____________________________'MATH'______________________________
 #
@@ -79,6 +68,3 @@ def differencing(a: list, b: list) -> list:
         list_result.append(result)
         
     return list_result
-
-
-get_symbol_data('TSLA', type='stock')
