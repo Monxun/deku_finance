@@ -25,9 +25,10 @@ st.title(screen)
 
 c = p.Client(api_token=config.api_key, version='stable')
 
+logo = c.logo(symbol=symbol)
+
 if screen == 'Overview':
 
-    logo = c.logo(symbol=symbol)
     st.image(logo['url'])
 
     quote = c.quoteDF(symbol=symbol)
@@ -41,11 +42,19 @@ if screen == 'Overview':
     st.write(f'{symbol} Chart')
     st.dataframe(chart)
 
+    sentiment = c.sentimentDF(symbol = symbol)
+
+    st.write(f'{symbol} Sentiment')
+    st.dataframe(sentiment)
+
+
+
 
 if screen == 'News':
 
-    st.write(f'{symbol} Quote')
-    st.write("Story Count")
+    st.image(logo['url'])
+
+    st.write(f"{symbol} Story Count")
     count = st.selectbox('Select', ["10", "20", "50", "100"], index=1)
     news = c.newsDF(symbol=symbol, count=count)[['headline', 'source']]
     st.dataframe(news)
