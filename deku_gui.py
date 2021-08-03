@@ -14,7 +14,9 @@ st.title(screen)
 
 c = p.Client(api_token=config.api_key, version='stable')
 
+
 if screen == 'Overview':
+
     quote = c.quoteDF(symbol=symbol)
 
     st.write(f'{symbol} Quote')
@@ -26,15 +28,17 @@ if screen == 'Overview':
     st.write(f'{symbol} Chart')
     st.dataframe(chart)
 
-
 if screen == 'News':
-    pass
- 
+
+    st.write(f'{symbol} Quote')
+    st.write("Story Count")
+    count = st.selectbox('Select', ["10", "20", "50", "100"], index=1)
+    news = c.newsDF(symbol=symbol, count=count)[['headline', 'source']]
+    st.dataframe(news)
 
 if screen == 'Fundamentals':
     pass
 
-   
 if screen == 'Ownership':
     pass
-   
+  
