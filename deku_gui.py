@@ -3,10 +3,21 @@ import deku_methods as dm
 import pyEX as p
 import config
 import pandas
+from functools import wraps
+from io import BytesIO
+import pandas as pd
+import requests
+from deprecation import deprecated
+from IPython.display import Image as ImageI
+from PIL import Image as ImageP
+
 
 print("Initializing gui...")
 
 symbol = st.sidebar.text_input("Symbol", value='GME')
+
+
+# stock = IEXStock(config.IEX_TOKEN, symbol) # lookup api  method
 
 screen = st.sidebar.selectbox("View", ('Overview', 'Fundamentals', 'News', 'Ownership', 'Technicals'), index=0)
 
@@ -14,8 +25,10 @@ st.title(screen)
 
 c = p.Client(api_token=config.api_key, version='stable')
 
-
 if screen == 'Overview':
+
+    logo = c.logo(symbol=symbol)
+    st.image(logo['url'])
 
     quote = c.quoteDF(symbol=symbol)
 
@@ -27,6 +40,7 @@ if screen == 'Overview':
 
     st.write(f'{symbol} Chart')
     st.dataframe(chart)
+
 
 if screen == 'News':
 
@@ -41,4 +55,4 @@ if screen == 'Fundamentals':
 
 if screen == 'Ownership':
     pass
-  
+   
