@@ -1,3 +1,10 @@
 pyEX
+pyEX-caching
+pyEX[async]
 psycopg2
 requests
+sqlalchemy
+streamlit
+numpy
+pandas
+yfinance
